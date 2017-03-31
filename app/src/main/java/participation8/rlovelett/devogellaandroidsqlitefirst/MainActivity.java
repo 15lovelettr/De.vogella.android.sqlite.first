@@ -11,11 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends ListActivity {
     private CommentDataSource datasource; //creates a new database that can be edited and potentially deleted/recreated
+    EditText rating;
 
     /**
      * onCreate - creates the entire app layout, and creates a new database of the class
@@ -27,6 +30,8 @@ public class MainActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rating = (EditText) findViewById(R.id.editText);
 
         datasource = new CommentDataSource(this);
         datasource.open();
@@ -50,7 +55,8 @@ public class MainActivity extends ListActivity {
                 String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
                 int nextInt = new Random().nextInt(3);
                 // save the new comment to the database
-                comment = datasource.createComment(comments[nextInt]);
+                String userRating = rating.getText().toString();
+                comment = datasource.createComment(comments[nextInt], userRating);
                 adapter.add(comment);
                 break;
             case R.id.delete: //if button ID id R.id.delete, then delete the first Comment object from the list of comments

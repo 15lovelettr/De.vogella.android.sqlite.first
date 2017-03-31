@@ -9,6 +9,7 @@ package participation8.rlovelett.devogellaandroidsqlitefirst;
 public class Comment {
     private long id;
     private String comment;
+    private String rating;
 
     /**
      *     returns the id of the comment object
@@ -54,6 +55,20 @@ public class Comment {
      */
     @Override
     public String toString() {
-        return comment;
+        return comment + ", Rating: " + rating;
     }
+
+    /**
+     * Set the rating of the current Comment object to the user entered rating.
+     *
+     * @param rating - the rating or a comment object
+     */
+    public void setRating(String rating) {this.rating = rating; }
+
+    /**
+     * Return the rating of the desired Comment object.
+     *
+     * @return the rating of the desired Comment object.
+     */
+    public String getRating() { return rating; }
 }

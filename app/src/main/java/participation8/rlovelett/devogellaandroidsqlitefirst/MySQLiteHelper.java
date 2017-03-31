@@ -16,15 +16,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_COMMENTS = "comments"; //A string of comments on the database table itself
     public static final String COLUMN_ID = "_id"; //The id for a column in the database table
     public static final String COLUMN_COMMENT = "comment"; //A comment for a corresponding column in the database table
+    public static final String COLUMN_RATING = "rating"; //The rating of a comment, entered by the user.
 
     private static final String DATABASE_NAME = "commments.db"; //Name of the database
-    private static final int DATABASE_VERSION = 1; //The version of the database, to be incremented with updates
+    private static final int DATABASE_VERSION = 2; //The version of the database, to be incremented with updates
 
     // Database SQL statement to Create Database for app
     private static final String DATABASE_CREATE = "create table "
             + TABLE_COMMENTS + "( " + COLUMN_ID
             + " integer primary key autoincrement, " + COLUMN_COMMENT
-            + " text not null);";
+            + " text not null, " + COLUMN_RATING + " text not null);";
 
     /**
      *     Class constructor for MySQLiteHelper class. Creates an object of the parent class.

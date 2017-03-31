@@ -21,7 +21,7 @@ public class CommentDataSource {
     private SQLiteDatabase database; //The app database
     private MySQLiteHelper dbHelper; //The creator object of the app database
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_COMMENT }; //The columns in the database
+            MySQLiteHelper.COLUMN_COMMENT, MySQLiteHelper.COLUMN_RATING }; //The columns in the database
 
     /**
      * Constructor of the CommentDataSource class, it creates a new MySQLiteHelper object to create the database
@@ -54,13 +54,14 @@ public class CommentDataSource {
      * @param comment - a string that will hold a comment that will be saved in the Comment object
      * @return - Comment object with the new comment
      */
-    public Comment createComment(String comment) {
+    public Comment createComment(String comment, String rating) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_COMMENT, comment); //puts new desired value into Database using MySQLiteHelper class
+        values.put(MySQLiteHelper.COLUMN_RATING, rating); //puts new desired value into Database using MySQLiteHelper class
         long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,
                 values); //finds new insert location in database using an insert statement
         Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-                allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                null, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null); //Cursor of the database is set to find the location of the next determined insert point
         cursor.moveToFirst();
         Comment newComment = cursorToComment(cursor); //adds new comment at cursor location
@@ -89,7 +90,7 @@ public class CommentDataSource {
         List<Comment> comments = new ArrayList<Comment>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-                allColumns, null, null, null, null, null); //Database query to select all columns in database
+                null, null, null, null, null, null); //Database query to select all columns in database
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -112,6 +113,7 @@ public class CommentDataSource {
         Comment comment = new Comment(); //creates new Comment object
         comment.setId(cursor.getLong(0)); //sets comment id for the database
         comment.setComment(cursor.getString(1)); //Sets the string comment in the Object
+        comment.setRating(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_RATING)));
         return comment;
     }
 }
